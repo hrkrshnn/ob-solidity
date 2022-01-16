@@ -1,11 +1,12 @@
-;;; ob-solidity.el --- org-babel functions for solidity evaluation
+;;; ob-solidity.el --- Org-babel functions for solidity evaluation
 
 ;; Copyright (C) hrkrshnn
 
 ;; Author: hrkrshnn
 ;; Keywords: solidity, literate programming, reproducible research
 ;; Homepage: https://github.com/hrkrshnn/ob-solidity
-;; 0.0.1
+;; Version: 0.0.1
+;; Package-Requires: ((emacs "24.4"))
 
 ;;; License:
 
@@ -44,6 +45,7 @@
 ;;
 ;; solidity compiler (solc) installed. The path is set at `solidity-solc-path`, defined in the above package (emacs-solidity).
 
+(require 'emacs-version)
 (require 'ob)
 (require 'ob-ref)
 (require 'ob-comint)
@@ -51,6 +53,8 @@
 (require 'solidity-mode)
 
 ;; optionally define a file extension for this language
+;;; Code:
+
 (add-to-list 'org-babel-tangle-lang-exts '("solidity" . "sol"))
 
 ;; This function expands the body of a source code block by doing
@@ -58,8 +62,7 @@
 ;; be called by the `org-babel-execute:solidity' function below.
 (defun org-babel-expand-body:solidity (body params &optional processed-params)
   "Expand BODY according to PARAMS, return the expanded body."
-  body
-  )
+  body)
 
 ;; Modification of `org-babel-eval' that will show the error message in the same buffer
 (defun org-babel-eval-solidity (cmd body)
@@ -92,8 +95,7 @@ This function is called by `org-babel-execute-src-block'"
          ;; Can optionally provide path to the "solc" binary. Useful when dealing with different
          ;; versions of solidity.
 		 (solc-path (cdr (assoc :path processed-params)))
-         (full-path (if (eq solc-path nil) solidity-solc-path solc-path))
-         )
+         (full-path (if (eq solc-path nil) solidity-solc-path solc-path)))
 
     (org-babel-eval-solidity (concat full-path " " args " - ") full-body)))
 
