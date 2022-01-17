@@ -6,7 +6,7 @@
 ;; Keywords: solidity, literate programming, reproducible research
 ;; Homepage: https://github.com/hrkrshnn/ob-solidity
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "24.4"))
+;; Package-Requires: ((emacs "24.4") (solidity-mode "0.1.10"))
 
 ;;; License:
 
@@ -45,7 +45,6 @@
 ;;
 ;; solidity compiler (solc) installed. The path is set at `solidity-solc-path`, defined in the above package (emacs-solidity).
 
-(require 'emacs-version)
 (require 'ob)
 (require 'ob-ref)
 (require 'ob-comint)
