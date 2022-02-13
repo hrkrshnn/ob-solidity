@@ -3,7 +3,7 @@
 ;; Copyright (C) hrkrshnn
 
 ;; Author: hrkrshnn
-;; Keywords: solidity, literate programming, reproducible research
+;; Keywords: solidity, literate programming, reproducible research, languages
 ;; Homepage: https://github.com/hrkrshnn/ob-solidity
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "24.4") (solidity-mode "0.1.10"))
@@ -60,7 +60,8 @@
 ;; things like prepending argument definitions to the body, it should
 ;; be called by the `org-babel-execute:solidity' function below.
 (defun org-babel-expand-body:solidity (body params &optional processed-params)
-  "Expand BODY according to PARAMS, return the expanded body."
+  "Expand BODY according to PARAMS, return the expanded body.
+The optional argument PROCESSED-PARAMS exists for interface compatibility."
   body)
 
 ;; Modification of `org-babel-eval' that will show the error message in the same buffer
@@ -83,6 +84,8 @@ STDERR with `org-babel-eval-error-notify'."
 ;; block.
 (defun org-babel-execute:solidity (body params)
   "Execute a block of Solidity code with org-babel.
+The variable BODY is the Solidity source code.
+The variable PARAMS is translated to parameters to solc.
 This function is called by `org-babel-execute-src-block'"
   (message "Compiling Solidity source code block.")
   (let* ((processed-params (org-babel-process-params params))
@@ -94,7 +97,7 @@ This function is called by `org-babel-execute-src-block'"
          ;; Can optionally provide path to the "solc" binary. Useful when dealing with different
          ;; versions of solidity.
 		 (solc-path (cdr (assoc :path processed-params)))
-         (full-path (if (eq solc-path nil) solidity-solc-path solc-path)))
+         (full-path (if (not solc-path) solidity-solc-path solc-path)))
 
     (org-babel-eval-solidity (concat full-path " " args " - ") full-body)))
 
